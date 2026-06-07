@@ -14,7 +14,6 @@
 | `api-composition-caching` | 조회 API 설계 — 합칠지/병렬/캐시 위치/개인화 분리 프레임워크 |
 | `architecture-interview` | 시니어 백엔드 시스템 디자인 면접 핑퐁 |
 | `release` | 의미 단위 릴리즈 태깅 (CHANGELOG 초안 + annotated 태그) |
-| `validating-test-lists` | 테스트 케이스 목록이 충분한지 검증 |
 | `verifying-design-proposals` | 설계 검증 요청("이거 맞아?") 시 동의 대신 코드 근거 verdict — ≥2 대안 비교·트레이드오프·택1·한계·언제 다른 안이 옳은가 |
 
 ### `agents/` — 서브에이전트 정의 (instruction md)
