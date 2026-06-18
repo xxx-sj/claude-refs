@@ -28,6 +28,18 @@
 |---|---|
 | `safe-commit.md` | 안전 커밋 절차 |
 
+### `hooks/` — Claude Code 게이트 훅 (실행 스크립트, `.cjs`)
+다른 카테고리와 달리 "참고 md" 가 아니라 **실행되는 게이트**다. 쓰려면 `.claude/hooks/` 에 복사한 뒤 `settings.json` 의 `hooks` 에 등록한다(PreToolUse / SessionStart matcher). 전부 프로젝트 무관 — `input.cwd` 기준이라 하드코딩 경로 없음.
+
+| 파일 | event / matcher | 무엇 |
+|---|---|---|
+| `h1-block-secret-read.cjs` | PreToolUse / Read | `.env`·키·인증서·`secrets.*` 류 파일 Read 를 `deny` (basename 기준이라 소스코드 오탐 없음) |
+| `h2-block-main-push.cjs` | PreToolUse / Bash | `git push` 가 main 대상이거나 현재 HEAD 가 main 이면 `deny` (PR 머지로만 반영) |
+| `h3-test-review-gate.cjs` | PreToolUse / Bash | 커밋 대상에 `*.spec.ts`/`*.test.ts` 가 있으면 `git commit` 을 `ask` (테스트 리뷰 확인 강제) |
+| `h4-pr-checklist-reminder.cjs` | PreToolUse / Bash | `gh pr create` 시 브랜치 diff 가 migration/env/config/infra/schema 를 건드렸으면 `ask` (배포 체크리스트 리마인드) |
+| `h5-destructive-guard.cjs` | PreToolUse / Bash | `git reset --hard`·`clean -f`·`branch -D`·`push --force`·`checkout .`·`rm -rf <위험경로>` 를 `ask` |
+| `h6-session-state.cjs` | SessionStart | 세션 시작 시 git 상태(브랜치·변경 수·최근 커밋)를 컨텍스트에 주입 (읽기만 — 차단/변경 없음) |
+
 ### `docs/` — 일반 방법론 문서
 | 파일 | 무엇 |
 |---|---|
